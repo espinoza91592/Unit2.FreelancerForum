@@ -80,10 +80,39 @@ function calculateAverageStartingPrice(freelancers) {
 function appendTableToContainer(table) {
   // get root element
   const root = document.querySelector("#root");
+  //   restet table to default
+  root.innerHTML = "";
   const h2 = document.createElement("h2");
   h2.innerText = "Available Freelancers";
   root.appendChild(h2);
   root.appendChild(table);
+}
+
+// function to update the table and average when newFreelancer gets input
+function updateTableAndAverage(newFreelancer) {
+  freelancers.push(newFreelancer);
+  const table = document.createElement("table");
+  createTableHeader(table);
+  createTableBody(table, freelancers);
+  appendTableToContainer(table);
+
+  calculateAverageStartingPrice();
+}
+
+// getting newFreelancer data and updateTableAverage
+function simulateNewFreeLancer() {
+  // setInterval and grab the id
+  const intervalId = setInterval(() => {
+    const newFreelancer = {
+      name: "Carol",
+      occupation: "Programmer",
+      price: 70,
+    };
+    updateTableAndAverage(newFreelancer);
+  }, 5000);
+
+  //  return interval id
+  return intervalId;
 }
 
 // render our display
@@ -94,5 +123,12 @@ function render(initialState) {
   appendTableToContainer(table);
   calculateAverageStartingPrice(freelancers);
 }
+
+const intervalID = simulateNewFreeLancer();
+
+setTimout(() => {
+  clearInterval(interlID);
+  console.log("Simulation stopped after 5 seconds");
+}, 5000);
 
 render(freelancers);
